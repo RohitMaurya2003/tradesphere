@@ -22,7 +22,7 @@ function Competitions() {
     const fetchContests = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('/api/competitions/contests');
+            const response = await axios.get('/competitions/contests');
             setContests(response.data);
         } catch (error) {
             console.error('Error fetching contests:', error);
@@ -34,7 +34,7 @@ function Competitions() {
 
     const fetchMyAchievements = async () => {
         try {
-            const response = await axios.get('/api/competitions/achievements/my');
+            const response = await axios.get('/competitions/achievements/my');
             setMyAchievements(response.data);
         } catch (error) {
             console.error('Error fetching achievements:', error);
@@ -43,7 +43,7 @@ function Competitions() {
 
     const fetchMyContests = async () => {
         try {
-            const response = await axios.get('/api/competitions/my-contests');
+            const response = await axios.get('/competitions/my-contests');
             setMyContestIds(new Set(response.data.contestIds));
         } catch (error) {
             console.error('Error fetching my contests:', error);
@@ -54,7 +54,7 @@ function Competitions() {
 
     const joinContest = async (contestId) => {
         try {
-            await axios.post(`/api/competitions/contests/${contestId}/join`);
+            await axios.post(`/competitions/contests/${contestId}/join`);
             toast.success('🎉 Joined contest successfully!');
             navigate(`/contest/${contestId}`);
         } catch (error) {
