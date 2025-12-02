@@ -22,7 +22,7 @@ function Portfolio() {
     const fetchPortfolio = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('http://localhost:5000/api/portfolio');
+            const response = await axios.get('/portfolio');
             setPortfolio(response.data);
             await updateLivePrices(response.data.stocks);
         } catch (error) {
@@ -38,7 +38,7 @@ function Portfolio() {
 
         try {
             const symbols = stocks.map(stock => stock.symbol).join(',');
-            const response = await axios.get(`http://localhost:5000/api/stocks/batch?symbols=${symbols}`);
+            const response = await axios.get(`/stocks/batch?symbols=${symbols}`);
 
             const newLivePrices = {};
             response.data.forEach(stock => {

@@ -71,7 +71,7 @@ function Dashboard() {
             // Fallback: try individual requests
             try {
                 const stockPromises = trendingStocks.map(symbol =>
-                    axios.get(`http://localhost:5000/api/stocks/quote/${symbol}`)
+                    axios.get(`/stocks/quote/${symbol}`)
                         .then(res => res.data)
                         .catch(() => null)
                 );

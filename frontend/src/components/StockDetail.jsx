@@ -117,7 +117,7 @@ function StockDetail() {
         try {
             console.log('Analyzing stock with Gemini AI:', symbol);
 
-            const response = await axios.post('http://localhost:5000/api/analysis/analyze', {
+            const response = await axios.post('/analysis/analyze', {
                 query: symbol,
                 stockData: stockData
             }, {

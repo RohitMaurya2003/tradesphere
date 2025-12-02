@@ -12,7 +12,7 @@ function Futures() {
 
     const load = async () => {
         try {
-            const r = await axios.get(`http://localhost:5000/api/derivatives/futures?symbol=${symbol}`);
+            const r = await axios.get(`/derivatives/futures?symbol=${symbol}`);
             setContracts(r.data || []);
         } catch (e) { toast.error('Failed to load futures'); }
     };
@@ -22,7 +22,7 @@ function Futures() {
     const previewPayoff = async (c, side='BUY') => {
         setSelected({ ...c, side });
         try {
-            const r = await axios.post('http://localhost:5000/api/derivatives/futures/payoff', {
+            const r = await axios.post('/derivatives/futures/payoff', {
                 entryPrice: c.price, lotSize: c.lotSize, side
             });
             setPayoff(r.data.points || []);
@@ -32,7 +32,7 @@ function Futures() {
     const trade = async (action) => {
         if (!selected) return;
         try {
-            const r = await axios.post(`http://localhost:5000/api/derivatives/futures/${action}`, {
+            const r = await axios.post(`/derivatives/futures/${action}`, {
                 symbol, price: selected.price, lotSize: selected.lotSize, quantity: 1, marginPercent: selected.marginPercent
             });
             toast.success(`${action} futures ${symbol} @ ${selected.price} opened`);

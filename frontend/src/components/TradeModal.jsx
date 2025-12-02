@@ -52,8 +52,8 @@ function TradeModal({ isOpen, onClose, stock, type, onSuccess, contestId = null,
 
             // Choose API endpoint based on contest mode
             const endpoint = isContestMode
-                ? `http://localhost:5000/api/competitions/contests/${contestId}/trade`
-                : `http://localhost:5000/api/portfolio/${type.toLowerCase()}`;
+                ? `/competitions/contests/${contestId}/trade`
+                : `/portfolio/${type.toLowerCase()}`;
 
             const response = await axios.post(
                 endpoint,

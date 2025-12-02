@@ -65,7 +65,7 @@ function ContestDetail() {
             setLoadingStocks(true);
             const token = localStorage.getItem('token');
             const symbolsString = trendingStocks.join(',');
-            const response = await axios.get(`http://localhost:5000/api/stocks/batch?symbols=${symbolsString}`, {
+            const response = await axios.get(`/stocks/batch?symbols=${symbolsString}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setStocks(response.data);
@@ -80,7 +80,7 @@ function ContestDetail() {
     const searchStocks = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:5000/api/stocks/search/${encodeURIComponent(searchQuery)}`, {
+            const response = await axios.get(`/stocks/search/${encodeURIComponent(searchQuery)}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setSearchResults(response.data);
@@ -93,7 +93,7 @@ function ContestDetail() {
     const selectSearchResult = async (stockSymbol) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:5000/api/stocks/quote/${stockSymbol}`, {
+            const response = await axios.get(`/stocks/quote/${stockSymbol}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (response.data) {
@@ -129,7 +129,7 @@ function ContestDetail() {
     const fetchContestDetails = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:5000/api/competitions/contests/${id}`, {
+            const response = await axios.get(`/competitions/contests/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setContest(response.data);
@@ -142,7 +142,7 @@ function ContestDetail() {
     const fetchMyEntry = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:5000/api/competitions/contests/${id}/my-entry`, {
+            const response = await axios.get(`/competitions/contests/${id}/my-entry`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setMyEntry(response.data);
@@ -158,7 +158,7 @@ function ContestDetail() {
     const fetchLeaderboard = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:5000/api/competitions/contests/${id}/leaderboard`, {
+            const response = await axios.get(`/competitions/contests/${id}/leaderboard`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setLeaderboard(response.data);
@@ -170,7 +170,7 @@ function ContestDetail() {
     const joinContest = async () => {
         try {
             const token = localStorage.getItem('token');
-            await axios.post(`http://localhost:5000/api/competitions/contests/${id}/join`, {}, {
+            await axios.post(`/competitions/contests/${id}/join`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             toast.success('🎉 Joined contest! Start trading now.');

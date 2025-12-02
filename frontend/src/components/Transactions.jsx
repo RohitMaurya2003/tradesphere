@@ -13,7 +13,7 @@ function Transactions() {
 
     const fetchTransactions = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/transactions');
+            const response = await axios.get('/transactions');
             setTransactions(response.data);
         } catch (error) {
             console.error('Error fetching transactions:', error);

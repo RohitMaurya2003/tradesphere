@@ -2,6 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
+import axios from 'axios'
+
+// Configure axios base URL from environment variable
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+axios.defaults.baseURL = API_BASE_URL;
 
 // Suppress React Router future flag warnings (they're just warnings)
 const originalWarn = console.warn;

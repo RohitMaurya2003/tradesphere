@@ -12,7 +12,7 @@ function Watchlist() {
     const load = async () => {
         try {
             setLoading(true);
-            const resp = await axios.get('http://localhost:5000/api/watchlists');
+            const resp = await axios.get('/watchlists');
             setLists(resp.data || []);
         } catch (e) {
             toast.error('Failed to load watchlists');
@@ -26,7 +26,7 @@ function Watchlist() {
     const create = async () => {
         if (!name.trim()) return;
         try {
-            const resp = await axios.post('http://localhost:5000/api/watchlists', { name });
+            const resp = await axios.post('/watchlists', { name });
             setLists([resp.data, ...lists]);
             setName('');
             toast.success('Watchlist created');
@@ -37,7 +37,7 @@ function Watchlist() {
 
     const remove = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/watchlists/${id}`);
+            await axios.delete(`/watchlists/${id}`);
             setLists(lists.filter(l => l._id !== id));
             toast.success('Deleted');
         } catch (e) { toast.error('Delete failed'); }
@@ -46,7 +46,7 @@ function Watchlist() {
     const addSymbol = async (id, symbol) => {
         if (!symbol.trim()) return;
         try {
-            const resp = await axios.post(`http://localhost:5000/api/watchlists/${id}/symbols`, { symbol });
+            const resp = await axios.post(`/watchlists/${id}/symbols`, { symbol });
             setLists(lists.map(l => l._id === id ? resp.data : l));
             toast.success('Symbol added');
         } catch (e) { toast.error('Add symbol failed'); }
@@ -54,7 +54,7 @@ function Watchlist() {
 
     const evaluate = async (id) => {
         try {
-            const resp = await axios.post(`http://localhost:5000/api/watchlists/${id}/evaluate`);
+            const resp = await axios.post(`/watchlists/${id}/evaluate`);
             const triggered = resp.data.results.filter(r => r.triggered);
             if (triggered.length) {
                 toast.success(`Alerts triggered: ${triggered.map(t => `${t.symbol}`).join(', ')}`);

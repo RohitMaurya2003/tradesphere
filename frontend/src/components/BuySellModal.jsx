@@ -18,7 +18,7 @@ function BuySellModal({ stock, type, onClose, onSuccess }) {
 
     const fetchCurrentPrice = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/stocks/quote/${stock.symbol}`);
+            const response = await axios.get(`/stocks/quote/${stock.symbol}`);
             if (response.data && response.data.price) {
                 setCurrentPrice(response.data.price);
             }
@@ -48,7 +48,7 @@ function BuySellModal({ stock, type, onClose, onSuccess }) {
 
             const token = localStorage.getItem('token');
             const response = await axios.post(
-                `http://localhost:5000/api/portfolio/${type.toLowerCase()}`,
+                `/portfolio/${type.toLowerCase()}`,
                 {
                     symbol: stock.symbol,
                     quantity: parseInt(quantity),
