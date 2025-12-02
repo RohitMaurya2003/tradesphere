@@ -12,6 +12,7 @@ const allowedOrigins = [
     'http://localhost:3000',
     'https://tradesphere.vercel.app',
     'https://tradesphere-frontend.vercel.app',
+    'https://tradesphere-iicy.onrender.com',
     process.env.FRONTEND_URL
 ].filter(Boolean);
 
