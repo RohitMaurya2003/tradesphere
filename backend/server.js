@@ -14,6 +14,7 @@ const allowedOrigins = [
     'https://tradesphere-frontend.vercel.app',
     'https://tradesphere-iicy.onrender.com',
     'https://unique-raindrop-7c1fb5.netlify.app',
+    'https://tradespheree.netlify.app',
     process.env.FRONTEND_URL
 ].filter(Boolean);
 
