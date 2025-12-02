@@ -10,7 +10,26 @@ import Dashboard from './components/Dashboard';
 import Portfolio from './components/Portfolio';
 import Transactions from './components/Transactions';
 import StockDetail from './components/StockDetail'; // Make sure this import exists
+import Watchlist from './components/Watchlist';
+import Options from './components/Options';
+import Futures from './components/Futures';
+import OptionsChain from './components/OptionsChain';
+import Competitions from './components/Competitions';
+import ContestDetail from './components/ContestDetail';
 import './index.css';
+
+// Root route decides between landing and dashboard automatically
+function RootRoute() {
+    const { user } = useAuth();
+    return user ? (
+        <>
+            <Navbar />
+            <Dashboard />
+        </>
+    ) : (
+        <LandingPage />
+    );
+}
 
 function ProtectedRoute({ children }) {
     const { user } = useAuth();
@@ -28,8 +47,8 @@ function App() {
             <Router>
                 <div className="min-h-screen bg-background text-foreground">
                     <Routes>
-                        {/* Public Routes */}
-                        <Route path="/" element={<LandingPage />} />
+                        {/* Root Smart Route */}
+                        <Route path="/" element={<RootRoute />} />
                         <Route
                             path="/login"
                             element={
@@ -81,12 +100,79 @@ function App() {
                                 </ProtectedRoute>
                             }
                         />
+                        <Route
+                            path="/watchlists"
+                            element={
+                                <ProtectedRoute>
+                                    <>
+                                        <Navbar />
+                                        <Watchlist />
+                                    </>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/options"
+                            element={
+                                <ProtectedRoute>
+                                    <>
+                                        <Navbar />
+                                        <Options />
+                                    </>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/options-chain"
+                            element={
+                                <ProtectedRoute>
+                                    <>
+                                        <Navbar />
+                                        <OptionsChain />
+                                    </>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/futures"
+                            element={
+                                <ProtectedRoute>
+                                    <>
+                                        <Navbar />
+                                        <Futures />
+                                    </>
+                                </ProtectedRoute>
+                            }
+                        />
                         {/* Stock Detail Route - Make sure this exists */}
                         <Route
                             path="/stock/:symbol"
                             element={
                                 <ProtectedRoute>
                                     <StockDetail />
+                                </ProtectedRoute>
+                            }
+                        />
+                        {/* Competitions Routes */}
+                        <Route
+                            path="/competitions"
+                            element={
+                                <ProtectedRoute>
+                                    <>
+                                        <Navbar />
+                                        <Competitions />
+                                    </>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/contest/:id"
+                            element={
+                                <ProtectedRoute>
+                                    <>
+                                        <Navbar />
+                                        <ContestDetail />
+                                    </>
                                 </ProtectedRoute>
                             }
                         />

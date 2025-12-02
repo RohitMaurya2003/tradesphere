@@ -1,10 +1,10 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
-import { TrendingUp, TrendingDown } from 'lucide-react';
+import { TrendingUp, TrendingDown, BookmarkPlus } from 'lucide-react';
 
-function StockCard({ stock, onBuy, onSell, isLoading }) {
+function StockCard({ stock, onBuy, onSell, onAddToWatchlist, isLoading }) {
     if (isLoading) {
         return (
             <motion.div
@@ -83,14 +83,29 @@ function StockCard({ stock, onBuy, onSell, isLoading }) {
     console.log('Stock data:', stock);
     console.log('Calculated values:', { currentPrice, change, changePercent: formattedChangePercent, isPositive });
 
+    const navigate = useNavigate();
+    const [showActions, setShowActions] = useState(false); // retain for future hover expansion
+
+    const handleNavigate = () => {
+        if (stock?.symbol) {
+            navigate(`/stock/${stock.symbol}`);
+        }
+    };
+
+    const handleAddWatchlist = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (onAddToWatchlist) onAddToWatchlist(stock.symbol);
+    };
+
     return (
-        <Link to={`/stock/${stock.symbol}`} className="block">
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6 hover:border-white/20 transition-all duration-300 group cursor-pointer"
-            >
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -5, transition: { duration: 0.2 } }}
+            className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6 hover:border-white/20 transition-all duration-300 group cursor-pointer relative"
+            onClick={handleNavigate}
+        >
                 {/* Header */}
                 <div className="flex justify-between items-start mb-4">
                     <div>
@@ -114,6 +129,15 @@ function StockCard({ stock, onBuy, onSell, isLoading }) {
                             {isPositive ? '+' : ''}{formattedChangePercent}%
                         </span>
                     </div>
+                    {/* Hover Watchlist Button */}
+                    <button
+                        onClick={handleAddWatchlist}
+                        className="opacity-0 group-hover:opacity-100 absolute top-4 right-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg p-2 transition-opacity"
+                        aria-label="Add to Watchlist"
+                        title="Add to Watchlist"
+                    >
+                        <BookmarkPlus className="w-5 h-5 text-white" />
+                    </button>
                 </div>
 
                 {/* Price */}
@@ -139,8 +163,8 @@ function StockCard({ stock, onBuy, onSell, isLoading }) {
                     </ResponsiveContainer>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="flex space-x-3" onClick={(e) => e.preventDefault()}>
+                {/* Persistent Action Buttons */}
+                <div className="flex space-x-3 mt-4" onClick={(e)=>e.preventDefault()}>
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -159,7 +183,7 @@ function StockCard({ stock, onBuy, onSell, isLoading }) {
                     </motion.button>
                 </div>
             </motion.div>
-        </Link>
+        
     );
 }
 

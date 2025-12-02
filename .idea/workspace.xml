@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cee83e43-9985-492c-b30a-24882088567f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/stock-detail/StockHeader.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/stock-detail/tabs/FinancialsTab.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/stock-detail/tabs/HoldingsTab.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/stock-detail/tabs/OverviewTab.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/portfolio.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/portfolio.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.vite/deps/_metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Portfolio.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Portfolio.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/StockDetail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/StockDetail.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Transactions.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Transactions.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trading-agent-ai/ai-engine/trading_agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trading-agent-ai/api-routes/ai-trading.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/stock-detail/ActionButtons.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trading-agent-ai/frontend-components/AIPortfolioInsights.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/stock-detail/AnalysisResults.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trading-agent-ai/frontend-components/AIRecommendationBadge.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/stock-detail/PriceChart.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trading-agent-ai/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/stock-detail/PriceStats.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trading-agent-ai/services/aiTradingService.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/stock-detail/tabs/AboutTab.jsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/frontend/package.json" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="34ZFfazbOevsZYAwoYE85UJFayq" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JavaScript Debug.test.executor&quot;: &quot;Debug&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/projects/stock-trading-app/frontend/src/components&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\projects\stock-trading-app\frontend\src\components" />
+      <recent name="D:\projects\stock-trading-app\frontend\src" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\projects\stock-trading-app\frontend\src\components" />
+      <recent name="D:\projects\stock-trading-app\trading-agent-ai\ai-engine" />
+      <recent name="D:\projects\stock-trading-app\indian_stock_bot" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="test" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:5000/api/test">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-WS-251.27812.50" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cee83e43-9985-492c-b30a-24882088567f" name="Changes" comment="" />
+      <created>1761413291102</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761413291102</updated>
+      <workItem from="1761413292294" duration="18141000" />
+      <workItem from="1761459483594" duration="5065000" />
+      <workItem from="1761466953907" duration="3775000" />
+      <workItem from="1761481562616" duration="2270000" />
+      <workItem from="1761497657278" duration="6562000" />
+      <workItem from="1761544396580" duration="3439000" />
+      <workItem from="1761561374954" duration="44000" />
+      <workItem from="1761631119239" duration="4017000" />
+      <workItem from="1761636810156" duration="133000" />
+      <workItem from="1761652150318" duration="6224000" />
+      <workItem from="1761662585020" duration="1671000" />
+      <workItem from="1761674193098" duration="251000" />
+      <workItem from="1761738444422" duration="2824000" />
+      <workItem from="1761912216198" duration="31000" />
+      <workItem from="1762366312685" duration="697000" />
+      <workItem from="1762610802438" duration="55000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/trading_agent/test_agent.py</url>
+          <line>28</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/components/StockCard.jsx</url>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/frontend/src/components/Dashboard.jsx</url>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

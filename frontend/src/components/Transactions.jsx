@@ -115,7 +115,7 @@ function Transactions() {
                                     ${t.price.toFixed(2)}
                                 </td>
                                 <td className="px-6 py-4 text-cyan-300 font-semibold">
-                                    ${t.totalAmount.toFixed(2)}
+                                    ₹{t.totalAmount.toFixed(2)}
                                 </td>
                             </motion.tr>
                         ))}

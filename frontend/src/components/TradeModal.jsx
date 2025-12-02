@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { X, TrendingUp, TrendingDown } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-function TradeModal({ isOpen, onClose, stock, type, onSuccess }) {
+function TradeModal({ isOpen, onClose, stock, type, onSuccess, contestId = null, contestBalance = null }) {
     const [quantity, setQuantity] = useState(1);
     const [loading, setLoading] = useState(false);
     const { user, updateUserBalance } = useAuth();
@@ -15,8 +15,12 @@ function TradeModal({ isOpen, onClose, stock, type, onSuccess }) {
     // Use currentPrice instead of price for consistency
     const currentPrice = stock.currentPrice || stock.price || 0;
     const totalAmount = quantity * currentPrice;
-    const maxBuyQuantity = Math.floor((user?.balance || 0) / currentPrice);
+    
+    // Use contest balance if in contest mode, otherwise use user balance
+    const availableBalance = contestBalance !== null ? contestBalance : (user?.balance || 0);
+    const maxBuyQuantity = Math.floor(availableBalance / currentPrice);
     const isPositive = (stock.change || 0) >= 0;
+    const isContestMode = contestId !== null;
 
     const handleTrade = async () => {
         try {
@@ -41,15 +45,23 @@ function TradeModal({ isOpen, onClose, stock, type, onSuccess }) {
             console.log('Sending trade data:', {
                 symbol: stock.symbol,
                 quantity: tradeQuantity,
-                price: tradePrice
+                price: tradePrice,
+                isContestMode,
+                contestId
             });
 
+            // Choose API endpoint based on contest mode
+            const endpoint = isContestMode
+                ? `http://localhost:5000/api/competitions/contests/${contestId}/trade`
+                : `http://localhost:5000/api/portfolio/${type.toLowerCase()}`;
+
             const response = await axios.post(
-                `http://localhost:5000/api/portfolio/${type.toLowerCase()}`,
+                endpoint,
                 {
                     symbol: stock.symbol,
                     quantity: tradeQuantity,
-                    price: tradePrice
+                    price: tradePrice,
+                    type: type.toUpperCase() // Contest API expects uppercase type
                 },
                 {
                     headers: {
@@ -60,12 +72,13 @@ function TradeModal({ isOpen, onClose, stock, type, onSuccess }) {
                 }
             );
 
-            // Update user balance
-            if (response.data.balance !== undefined) {
+            // Update user balance (only for regular portfolio trades)
+            if (!isContestMode && response.data.balance !== undefined) {
                 updateUserBalance(response.data.balance);
             }
 
-            toast.success(`Successfully ${type.toLowerCase()}ed ${quantity} shares of ${stock.symbol}`);
+            const modeText = isContestMode ? 'in contest' : '';
+            toast.success(`Successfully ${type.toLowerCase()}ed ${quantity} shares of ${stock.symbol} ${modeText}`);
             onSuccess();
             onClose();
         } catch (error) {
@@ -166,6 +179,7 @@ function TradeModal({ isOpen, onClose, stock, type, onSuccess }) {
                             {type === 'BUY' && (
                                 <p className="text-gray-400 text-sm mt-2">
                                     Maximum you can buy: {maxBuyQuantity} shares
+                                    {isContestMode && <span className="text-blue-400 ml-2">(Contest Mode)</span>}
                                 </p>
                             )}
                         </div>
@@ -180,7 +194,8 @@ function TradeModal({ isOpen, onClose, stock, type, onSuccess }) {
                                     </div>
                                     {type === 'BUY' && (
                                         <div className="text-gray-400 text-sm">
-                                            Available: ₹{(user?.balance || 0).toFixed(2)}
+                                            Available: ₹{availableBalance.toFixed(2)}
+                                            {isContestMode && <span className="text-blue-400 ml-1">(Virtual)</span>}
                                         </div>
                                     )}
                                 </div>
@@ -202,7 +217,7 @@ function TradeModal({ isOpen, onClose, stock, type, onSuccess }) {
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={handleTrade}
-                                disabled={loading || (type === 'BUY' && totalAmount > (user?.balance || 0))}
+                                disabled={loading || (type === 'BUY' && totalAmount > availableBalance)}
                                 className={`flex-1 py-3 px-4 rounded-xl text-white font-semibold transition-all duration-200 disabled:opacity-50 ${
                                     type === 'BUY'
                                         ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700'

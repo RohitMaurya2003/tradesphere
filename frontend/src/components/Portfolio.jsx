@@ -69,18 +69,14 @@ function Portfolio() {
         toast.success('Stock sold successfully!');
     };
 
+    // In your Portfolio.jsx, simplify the calculateProfitLoss function:
     const calculateProfitLoss = (stock) => {
-        const currentPrice = livePrices[stock.symbol] || stock.averagePrice;
-        const totalValue = stock.quantity * currentPrice;
-        const totalInvested = stock.totalInvested;
-        const profitLoss = totalValue - totalInvested;
-        const profitLossPercent = ((profitLoss / totalInvested) * 100);
-
+        // Now the backend provides all this data
         return {
-            value: profitLoss,
-            percent: profitLossPercent,
-            totalValue: totalValue,
-            currentPrice: currentPrice
+            value: stock.profitLoss || 0,
+            percent: stock.profitLossPercentage || 0,
+            totalValue: stock.currentValue || stock.totalInvested,
+            currentPrice: stock.currentPrice || stock.averagePrice
         };
     };
 

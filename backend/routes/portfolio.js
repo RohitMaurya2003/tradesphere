@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios');
 const auth = require('../middleware/auth');
 const Portfolio = require('../models/Portfolio');
 const User = require('../models/User');
@@ -8,33 +9,149 @@ const router = express.Router();
 // Apply auth middleware to all routes
 router.use(auth);
 
-// Debug middleware to log auth info
-router.use((req, res, next) => {
-    console.log('🔐 Portfolio route - User:', req.user?.id, req.user?.username);
-    next();
-});
-
-// Get user portfolio
+// Get user portfolio with current market prices
 router.get('/', async (req, res) => {
     try {
         console.log('📊 Fetching portfolio for user:', req.user.id);
 
-        let portfolio = await Portfolio.findOne({ user: req.user.id }).populate('user');
+        let portfolio = await Portfolio.findOne({ user: req.user.id });
 
         if (!portfolio) {
             console.log('📝 Creating new portfolio for user:', req.user.id);
             portfolio = await Portfolio.create({ user: req.user.id, stocks: [] });
+            return res.json({
+                stocks: [],
+                summary: {
+                    totalInvested: 0,
+                    totalCurrentValue: 0,
+                    totalProfitLoss: 0,
+                    totalProfitLossPercentage: 0,
+                    lastUpdated: new Date().toISOString()
+                }
+            });
         }
 
-        console.log('✅ Portfolio fetched successfully');
-        res.json(portfolio);
+        console.log('🔍 Portfolio stocks:', portfolio.stocks);
+
+        // If no stocks, return empty portfolio
+        if (portfolio.stocks.length === 0) {
+            return res.json({
+                stocks: [],
+                summary: {
+                    totalInvested: 0,
+                    totalCurrentValue: 0,
+                    totalProfitLoss: 0,
+                    totalProfitLossPercentage: 0,
+                    lastUpdated: new Date().toISOString()
+                }
+            });
+        }
+
+        // Get current prices for all stocks using batch API
+        const symbols = portfolio.stocks.map(stock => stock.symbol).join(',');
+        let currentPricesData = [];
+
+        try {
+            console.log(`🔄 Fetching batch prices for symbols: ${symbols}`);
+            const pricesResponse = await axios.get(`http://localhost:5000/api/stocks/batch?symbols=${symbols}`);
+            currentPricesData = pricesResponse.data;
+            console.log('✅ Batch prices fetched:', currentPricesData);
+        } catch (error) {
+            console.error('❌ Error fetching batch prices:', error.message);
+            // If batch fails, try individual quotes
+            currentPricesData = [];
+            for (const stock of portfolio.stocks) {
+                try {
+                    const quoteResponse = await axios.get(`http://localhost:5000/api/stocks/quote/${stock.symbol}`);
+                    currentPricesData.push(quoteResponse.data);
+                } catch (individualError) {
+                    console.error(`❌ Error fetching price for ${stock.symbol}:`, individualError.message);
+                    // Use average price as fallback
+                    currentPricesData.push({
+                        symbol: stock.symbol,
+                        currentPrice: stock.averagePrice,
+                        companyName: `${stock.symbol} Limited`
+                    });
+                }
+            }
+        }
+
+        // Create a map of current prices for easy lookup
+        const currentPricesMap = {};
+        currentPricesData.forEach(stockData => {
+            if (stockData && stockData.symbol) {
+                currentPricesMap[stockData.symbol] = {
+                    currentPrice: stockData.currentPrice || stockData.price || stockData.averagePrice,
+                    companyName: stockData.companyName || `${stockData.symbol} Limited`
+                };
+            }
+        });
+
+        // Calculate portfolio data with current prices
+        const stocksWithCurrentData = portfolio.stocks.map(stock => {
+            const currentPriceInfo = currentPricesMap[stock.symbol] || {
+                currentPrice: stock.averagePrice,
+                companyName: `${stock.symbol} Limited`
+            };
+
+            const currentPrice = currentPriceInfo.currentPrice;
+            const currentValue = currentPrice * stock.quantity;
+            const profitLoss = currentValue - stock.totalInvested;
+            const profitLossPercentage = stock.totalInvested > 0 ? (profitLoss / stock.totalInvested) * 100 : 0;
+
+            return {
+                symbol: stock.symbol,
+                quantity: stock.quantity,
+                averagePrice: stock.averagePrice,
+                totalInvested: stock.totalInvested,
+                currentPrice: currentPrice,
+                currentValue: parseFloat(currentValue.toFixed(2)),
+                profitLoss: parseFloat(profitLoss.toFixed(2)),
+                profitLossPercentage: parseFloat(profitLossPercentage.toFixed(2)),
+                companyName: currentPriceInfo.companyName,
+                lastUpdated: new Date().toISOString()
+            };
+        });
+
+        // Calculate portfolio totals
+        const totalInvested = stocksWithCurrentData.reduce((sum, stock) => sum + stock.totalInvested, 0);
+        const totalCurrentValue = stocksWithCurrentData.reduce((sum, stock) => sum + stock.currentValue, 0);
+        const totalProfitLoss = totalCurrentValue - totalInvested;
+        const totalProfitLossPercentage = totalInvested > 0 ? (totalProfitLoss / totalInvested) * 100 : 0;
+
+        const portfolioWithCurrentData = {
+            _id: portfolio._id,
+            user: portfolio.user,
+            stocks: stocksWithCurrentData,
+            summary: {
+                totalInvested: parseFloat(totalInvested.toFixed(2)),
+                totalCurrentValue: parseFloat(totalCurrentValue.toFixed(2)),
+                totalProfitLoss: parseFloat(totalProfitLoss.toFixed(2)),
+                totalProfitLossPercentage: parseFloat(totalProfitLossPercentage.toFixed(2)),
+                lastUpdated: new Date().toISOString()
+            },
+            createdAt: portfolio.createdAt,
+            updatedAt: portfolio.updatedAt
+        };
+
+        console.log('✅ Portfolio with current data:', {
+            totalStocks: stocksWithCurrentData.length,
+            totalInvested,
+            totalCurrentValue,
+            totalProfitLoss
+        });
+
+        res.json(portfolioWithCurrentData);
     } catch (error) {
         console.error('❌ Error fetching portfolio:', error);
-        res.status(500).json({ error: 'Failed to fetch portfolio' });
+        res.status(500).json({
+            error: 'Failed to fetch portfolio',
+            details: error.message
+        });
     }
 });
 
-// Buy stocks
+// Buy stocks (keep your existing buy function)
 router.post('/buy', async (req, res) => {
     try {
         const { symbol, quantity, price } = req.body;
@@ -64,7 +181,7 @@ router.post('/buy', async (req, res) => {
         const totalCost = parsedQuantity * parsedPrice;
         const userId = req.user.id;
 
-        console.log(`🛒 Buy request: ${parsedQuantity} ${symbol} @ $${parsedPrice} = $${totalCost} for user: ${userId}`);
+        console.log(`🛒 Buy request: ${parsedQuantity} ${symbol} @ ₹${parsedPrice} = ₹${totalCost} for user: ${userId}`);
 
         // Check if user has sufficient balance
         const user = await User.findById(userId);
@@ -73,7 +190,7 @@ router.post('/buy', async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        console.log(`💰 User balance: $${user.balance}, Required: $${totalCost}`);
+        console.log(`💰 User balance: ₹${user.balance}, Required: ₹${totalCost}`);
 
         if (user.balance < totalCost) {
             console.log('❌ Insufficient balance');
@@ -138,7 +255,7 @@ router.post('/buy', async (req, res) => {
     }
 });
 
-// Sell stocks
+// Sell stocks (keep your existing sell function)
 router.post('/sell', async (req, res) => {
     try {
         const { symbol, quantity, price } = req.body;
@@ -168,7 +285,7 @@ router.post('/sell', async (req, res) => {
         const totalRevenue = parsedQuantity * parsedPrice;
         const userId = req.user.id;
 
-        console.log(`💰 Sell request: ${parsedQuantity} ${symbol} @ $${parsedPrice} = $${totalRevenue} for user: ${userId}`);
+        console.log(`💰 Sell request: ${parsedQuantity} ${symbol} @ ₹${parsedPrice} = ₹${totalRevenue} for user: ${userId}`);
 
         // Check if user owns the stock and has sufficient quantity
         let portfolio = await Portfolio.findOne({ user: userId });

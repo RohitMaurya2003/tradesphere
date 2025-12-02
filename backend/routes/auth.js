@@ -5,7 +5,7 @@ const router = express.Router();
 
 const createToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET || 'stock_trading_app_secret_key_2024_rohit_maurya_86930_fmp_fyFWS7qZV8dXJ6GmqRhUo', {
-        expiresIn: '7d'
+        expiresIn: '30d' // Extended to 30 days
     });
 };
 

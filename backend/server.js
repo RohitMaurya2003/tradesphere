@@ -14,7 +14,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
-app.use('/api/ai-trading', require('./routes/ai-trading'));
+
 
 // Import routes
 try {
@@ -47,6 +47,41 @@ try {
     console.log('✅ Transactions routes loaded');
 } catch (error) {
     console.log('❌ Transactions routes failed to load:', error.message);
+}
+
+try {
+    const analysisRoutes = require('./routes/analysis');
+    app.use('/api/analysis', analysisRoutes);
+    console.log('✅ Analysis routes loaded');
+} catch (error) {
+    console.log('❌ Analysis routes failed to load:', error.message);
+}
+
+// Watchlist routes
+try {
+    const watchlistRoutes = require('./routes/watchlist');
+    app.use('/api/watchlists', watchlistRoutes);
+    console.log('✅ Watchlist routes loaded');
+} catch (error) {
+    console.log('❌ Watchlist routes failed to load:', error.message);
+}
+
+// Derivatives routes
+try {
+    const derivativesRoutes = require('./routes/derivatives');
+    app.use('/api/derivatives', derivativesRoutes);
+    console.log('✅ Derivatives routes loaded');
+} catch (error) {
+    console.log('❌ Derivatives routes failed to load:', error.message);
+}
+
+// Competition routes
+try {
+    const competitionsRoutes = require('./routes/competitions');
+    app.use('/api/competitions', competitionsRoutes);
+    console.log('✅ Competitions routes loaded');
+} catch (error) {
+    console.log('❌ Competitions routes failed to load:', error.message);
 }
 
 // Database connection
